@@ -2,4 +2,7 @@
     <string name="app_name">SimpleAccountBook</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!--FragmentAccountList-->
+    <string name="fragment_account_list_toolbar_text"></string>
 </resources>
