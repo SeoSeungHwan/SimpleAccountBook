@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "925080454235",
+    "project_id": "simple-account-book-de3be",
+    "storage_bucket": "simple-account-book-de3be.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:925080454235:android:0f0adf3a2654763f29ab7e",
+        "android_client_info": {
+          "package_name": "com.soft.simpleaccountbook"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "925080454235-gim62j2crt0n22hlhct80l6hqgof3gdf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAVpJDwgOBlGsn7fHV4Nq2nueslIGhEAoI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "925080454235-gim62j2crt0n22hlhct80l6hqgof3gdf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
