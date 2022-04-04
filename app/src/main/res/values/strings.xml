@@ -5,4 +5,20 @@
 
     <!--FragmentAccountList-->
     <string name="fragment_account_list_toolbar_text"></string>
+
+    <!--AddAccountListBottomSheetDialog-->
+    <string name="add_account_list_deposit">수입</string>
+    <string name="add_account_list_withdraw">지출</string>
+    <string name="add_account_list_transfer">이체</string>
+
+    <string name="add_account_list_date">날짜</string>
+    <string name="add_account_list_amount">금액</string>
+    <string name="add_account_list_amount_hint">금액을 입력해주세요.</string>
+    <string name="add_account_list_amount_won">원</string>
+    <string name="add_account_list_content">내용</string>
+    <string name="add_account_list_content_hint">내용을 입력해주세요.</string>
+
+    <string name="add_account_list_submit_button">저장하기</string>
+
+
 </resources>

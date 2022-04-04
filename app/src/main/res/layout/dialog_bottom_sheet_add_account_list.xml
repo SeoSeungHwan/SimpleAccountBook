@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.soft.simpleaccountbook.view.viewmodel.AddAccountListViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+            app:contentInsetStart="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar">
+
+            <Button
+                android:id="@+id/add_count_list_deposit_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                android:background="@{viewModel.addAccountListTypeLiveData == 0 ? @drawable/custom_account_book_type_select_on : @drawable/custom_account_book_type_select_off}"
+                android:fontFamily="@font/nanum_square_rount_b_font"
+                android:text="@string/add_account_list_deposit" />
+
+            <Button
+                android:id="@+id/add_count_list_withdraw_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                android:background="@{viewModel.addAccountListTypeLiveData ==1 ? @drawable/custom_account_book_type_select_on : @drawable/custom_account_book_type_select_off}"
+                android:fontFamily="@font/nanum_square_rount_b_font"
+                android:text="@string/add_account_list_withdraw" />
+
+            <Button
+                android:id="@+id/add_count_list_transfer_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                android:background="@{viewModel.addAccountListTypeLiveData ==2 ? @drawable/custom_account_book_type_select_on : @drawable/custom_account_book_type_select_off}"
+                android:fontFamily="@font/nanum_square_rount_b_font"
+                android:text="@string/add_account_list_transfer" />
+        </LinearLayout>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/add_account_list_date_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+
+            <TextView
+                android:id="@+id/add_account_list_date_textview"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/nanum_square_round_b"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="@string/add_account_list_date"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent="0.2" />
+
+            <TextView
+                android:id="@+id/add_account_list_date_edittext"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginEnd="20dp"
+                android:fontFamily="@font/nanum_square_rount_l_font"
+                app:layout_constraintBottom_toBottomOf="@+id/add_account_list_date_textview"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/add_account_list_date_textview"
+                app:layout_constraintTop_toTopOf="@+id/add_account_list_date_textview" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:background="@color/main"
+                app:layout_constraintEnd_toEndOf="@+id/add_account_list_date_edittext"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/add_account_list_date_edittext"
+                app:layout_constraintTop_toBottomOf="@+id/add_account_list_date_edittext" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/add_account_list_amount_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/add_account_list_date_layout">
+
+            <TextView
+                android:id="@+id/add_account_list_amount_textview"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/nanum_square_round_b"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="@string/add_account_list_amount"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent="0.2" />
+
+            <EditText
+                android:id="@+id/add_account_list_amount_edittext"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@null"
+                android:fontFamily="@font/nanum_square_rount_l_font"
+                android:hint="@string/add_account_list_amount_hint"
+                android:inputType="number"
+                app:layout_constraintBottom_toBottomOf="@+id/add_account_list_amount_textview"
+                app:layout_constraintEnd_toStartOf="@+id/textView2"
+                app:layout_constraintStart_toEndOf="@+id/add_account_list_amount_textview"
+                app:layout_constraintTop_toTopOf="@+id/add_account_list_amount_textview" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginEnd="20dp"
+                android:fontFamily="@font/nanum_square_rount_b_font"
+                android:gravity="center"
+                android:text="@string/add_account_list_amount_won"
+                android:textColor="@color/black"
+                app:layout_constraintBottom_toBottomOf="@+id/add_account_list_amount_textview"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/add_account_list_amount_textview"
+                app:layout_constraintWidth_percent="0.1" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:background="@color/main"
+                app:layout_constraintEnd_toEndOf="@+id/textView2"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/add_account_list_amount_edittext"
+                app:layout_constraintTop_toBottomOf="@+id/add_account_list_amount_edittext" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/add_account_list_content_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/add_account_list_amount_layout">
+
+            <TextView
+                android:id="@+id/add_account_list_content_textview"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/nanum_square_round_b"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="@string/add_account_list_content"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent="0.2" />
+
+            <EditText
+                android:id="@+id/add_account_list_content_edittext"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@null"
+                android:fontFamily="@font/nanum_square_rount_l_font"
+                android:hint="@string/add_account_list_content_hint"
+                android:inputType="text"
+                app:layout_constraintBottom_toBottomOf="@+id/add_account_list_content_textview"
+                app:layout_constraintEnd_toStartOf="@+id/add_account_list_content_clear_btn"
+                app:layout_constraintStart_toEndOf="@+id/add_account_list_content_textview"
+                app:layout_constraintTop_toTopOf="@+id/add_account_list_content_textview" />
+
+            <ImageView
+                android:id="@+id/add_account_list_content_clear_btn"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginEnd="20dp"
+                android:padding="10dp"
+                android:src="@drawable/clear_icon"
+                app:layout_constraintBottom_toBottomOf="@+id/add_account_list_content_textview"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/add_account_list_content_textview"
+                app:layout_constraintWidth_percent="0.1" />
+
+            <View
+                android:id="@+id/view"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:background="@color/main"
+                app:layout_constraintEnd_toEndOf="@+id/add_account_list_content_clear_btn"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/add_account_list_content_edittext"
+                app:layout_constraintTop_toBottomOf="@+id/add_account_list_content_edittext" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <Button
+            android:id="@+id/add_account_list_submit_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="50dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/custom_submit_button"
+            android:fontFamily="@font/nanum_square_rount_b_font"
+            android:text="@string/add_account_list_submit_button"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/add_account_list_content_layout" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
