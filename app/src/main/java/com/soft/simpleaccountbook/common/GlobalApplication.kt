@@ -7,6 +7,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.soft.simpleaccountbook.BuildConfig
 
@@ -15,14 +17,17 @@ class GlobalApplication: Application() {
     companion object{
         lateinit var auth : FirebaseAuth
         lateinit var googleSignInClient: GoogleSignInClient
+        lateinit var db : FirebaseFirestore
     }
     override fun onCreate() {
         super.onCreate()
 
         // 앱 내 다크모드 비활성화
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-        //Firebase로그인 초기화
+        //FirebaseAuth 초기화
         initFirebaseAuth()
+        //FirebaseDB 초기화
+        initFirebaseDB()
     }
 
     private fun initFirebaseAuth() {
@@ -34,6 +39,10 @@ class GlobalApplication: Application() {
             .build()
 
         googleSignInClient = GoogleSignIn.getClient(this, gso)
+    }
+
+    private fun initFirebaseDB(){
+        db = Firebase.firestore
     }
 
 
