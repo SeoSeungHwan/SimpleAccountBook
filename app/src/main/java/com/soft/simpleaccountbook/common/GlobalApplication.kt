@@ -18,6 +18,7 @@ class GlobalApplication: Application() {
         lateinit var auth : FirebaseAuth
         lateinit var googleSignInClient: GoogleSignInClient
         lateinit var db : FirebaseFirestore
+        lateinit var mySharedPreferences: MySharedPreferences
     }
     override fun onCreate() {
         super.onCreate()
@@ -28,6 +29,8 @@ class GlobalApplication: Application() {
         initFirebaseAuth()
         //FirebaseDB 초기화
         initFirebaseDB()
+        //SharePreferences초기화
+        mySharedPreferences = MySharedPreferences(applicationContext)
     }
 
     private fun initFirebaseAuth() {

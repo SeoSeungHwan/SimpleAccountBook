@@ -21,6 +21,7 @@ android {
 
         /* Hide Key (Must In Local.Properties)*/
         buildConfigField "String", "default_web_client_id", properties["default_web_client_id"]
+        buildConfigField "String", "prefs_name", properties["prefs_name"]
     }
 
     buildTypes {

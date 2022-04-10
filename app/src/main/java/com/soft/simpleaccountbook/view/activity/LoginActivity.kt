@@ -73,6 +73,7 @@ class LoginActivity : BaseActivityForViewBinding<ActivityLoginBinding>() {
 
     private fun updateUI(user : FirebaseUser){
         val intent = Intent(this,MainActivity::class.java)
+        GlobalApplication.mySharedPreferences.setString("uid",user.uid)
         startActivity(intent)
     }
 

@@ -8,11 +8,14 @@ import android.os.Bundle
 import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModelProvider
+import com.google.firebase.Timestamp
 import com.kakaobrain.pathfinder_prodo.viewmodel.viewmodelfactory.MyRepositoryViewModelFactory
 import com.router.nftforum.model.repository.MyRepository
 import com.router.nftforum.view.base.BaseBottomSheetDialogFragment
 import com.soft.simpleaccountbook.R
 import com.soft.simpleaccountbook.databinding.DialogBottomSheetAddAccountListBinding
+import com.soft.simpleaccountbook.model.AccountBookItem
+import com.soft.simpleaccountbook.util.ToastMessageUtil
 import com.soft.simpleaccountbook.view.viewmodel.AddAccountListViewModel
 import java.time.LocalDate
 import java.time.LocalTime
@@ -66,6 +69,15 @@ class AddAccountListBottomSheetDialog :
                     else -> ""
                 }
         }
+        viewModel.addAccountBookItemLiveData.observe(viewLifecycleOwner){
+            if(it){
+                ToastMessageUtil().showShortToast(requireContext(),"성공적으로 등록되었습니다.")
+                dismiss()
+            }else{
+                ToastMessageUtil().showShortToast(requireContext(),"실패하였습니다.")
+                dismiss()
+            }
+        }
     }
 
     private fun setUpBtnListener() {
@@ -87,7 +99,9 @@ class AddAccountListBottomSheetDialog :
             viewModel.changeAccountListType(2)
         }
         viewDataBinding.addAccountListSubmitButton.setOnClickListener {
-
+            viewModel.addAccountBookItem(AccountBookItem(
+                1,Timestamp.now(),0,"테스트"
+            ))
         }
     }
 
@@ -118,4 +132,5 @@ class AddAccountListBottomSheetDialog :
             TimePickerDialog(requireContext(), listener, nowTime.hour, nowTime.minute, true)
         timePickerDialog.show()
     }
+
 }
