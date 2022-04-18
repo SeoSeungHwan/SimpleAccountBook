@@ -39,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:layout_weight="1"
-                android:background="@{viewModel.addAccountListTypeLiveData == 0 ? @drawable/custom_account_book_type_select_on : @drawable/custom_account_book_type_select_off}"
+                android:background="@{viewModel.accountListTypeLiveData == 0 ? @drawable/custom_account_book_type_select_on : @drawable/custom_account_book_type_select_off}"
                 android:fontFamily="@font/nanum_square_rount_b_font"
                 android:text="@string/add_account_list_deposit" />
 
@@ -49,7 +49,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:layout_weight="1"
-                android:background="@{viewModel.addAccountListTypeLiveData ==1 ? @drawable/custom_account_book_type_select_on : @drawable/custom_account_book_type_select_off}"
+                android:background="@{viewModel.accountListTypeLiveData ==1 ? @drawable/custom_account_book_type_select_on : @drawable/custom_account_book_type_select_off}"
                 android:fontFamily="@font/nanum_square_rount_b_font"
                 android:text="@string/add_account_list_withdraw" />
 
@@ -59,7 +59,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:layout_weight="1"
-                android:background="@{viewModel.addAccountListTypeLiveData ==2 ? @drawable/custom_account_book_type_select_on : @drawable/custom_account_book_type_select_off}"
+                android:background="@{viewModel.accountListTypeLiveData ==2 ? @drawable/custom_account_book_type_select_on : @drawable/custom_account_book_type_select_off}"
                 android:fontFamily="@font/nanum_square_rount_b_font"
                 android:text="@string/add_account_list_transfer" />
         </LinearLayout>

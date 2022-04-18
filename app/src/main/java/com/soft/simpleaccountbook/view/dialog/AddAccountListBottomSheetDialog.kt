@@ -5,6 +5,7 @@ import android.app.DatePickerDialog.OnDateSetListener
 import android.app.TimePickerDialog
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModelProvider
@@ -15,6 +16,8 @@ import com.router.nftforum.view.base.BaseBottomSheetDialogFragment
 import com.soft.simpleaccountbook.R
 import com.soft.simpleaccountbook.databinding.DialogBottomSheetAddAccountListBinding
 import com.soft.simpleaccountbook.model.AccountBookItem
+import com.soft.simpleaccountbook.model.DateModel
+import com.soft.simpleaccountbook.model.TimeModel
 import com.soft.simpleaccountbook.util.ToastMessageUtil
 import com.soft.simpleaccountbook.view.viewmodel.AddAccountListViewModel
 import java.time.LocalDate
@@ -53,14 +56,15 @@ class AddAccountListBottomSheetDialog :
     private fun initCurrentDateAndTime() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val nowDate = LocalDate.now()
+            viewModel.changeDateModel(DateModel(nowDate.year,nowDate.monthValue-1,nowDate.dayOfMonth))
+
             val nowTime = LocalTime.now()
-            viewDataBinding.addAccountListDateEdittext.text = "${nowDate.year}/${nowDate.monthValue}/${nowDate.dayOfMonth}"
-            viewDataBinding.addAccountListTimeEdittext.text = "${nowTime.hour}시 ${nowTime.minute}분"
+            viewModel.changeTimeModel(TimeModel(nowTime.hour,nowTime.minute))
         }
     }
 
     private fun setUpObserver() {
-        viewModel.addAccountListTypeLiveData.observe(viewLifecycleOwner) { type ->
+        viewModel.accountListTypeLiveData.observe(viewLifecycleOwner) { type ->
             viewDataBinding.toolbar.title =
                 when (type) {
                     0 -> "수입"
@@ -77,6 +81,14 @@ class AddAccountListBottomSheetDialog :
                 ToastMessageUtil().showShortToast(requireContext(),"실패하였습니다.")
                 dismiss()
             }
+        }
+        viewModel.dateModelLiveData.observe(viewLifecycleOwner){
+            viewDataBinding.addAccountListDateEdittext.text =
+                "${it.year}/${it.monthOfYear + 1}/${it.dayOfMonth}"
+        }
+        viewModel.timeModelLiveData.observe(viewLifecycleOwner){
+            viewDataBinding.addAccountListTimeEdittext.text =
+                "${it.hourOfDay}시 ${it.minute}분"
         }
     }
 
@@ -100,16 +112,17 @@ class AddAccountListBottomSheetDialog :
         }
         viewDataBinding.addAccountListSubmitButton.setOnClickListener {
             viewModel.addAccountBookItem(AccountBookItem(
-                1,Timestamp.now(),0,"테스트"
+                viewModel.accountListTypeLiveData.value!!,viewModel.getDateTimeModelToTimeStamp(),viewDataBinding.addAccountListAmountEdittext.text.toString(),viewDataBinding.addAccountListContentEdittext.text.toString()
             ))
+
         }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun showDatePickerDialog() {
         val listener = OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
-            viewDataBinding.addAccountListDateEdittext.text =
-                "${year}/${monthOfYear + 1}/${dayOfMonth}"
+            val dateModel = DateModel(year,monthOfYear,dayOfMonth)
+            viewModel.changeDateModel(dateModel)
         }
         val nowDate = LocalDate.now()
         val datePickerDialog = DatePickerDialog(
@@ -125,7 +138,8 @@ class AddAccountListBottomSheetDialog :
     @RequiresApi(Build.VERSION_CODES.O)
     private fun showTimePickerDialog() {
         val listener = TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute ->
-            viewDataBinding.addAccountListTimeEdittext.text = "${hourOfDay}시 ${minute}분"
+            val timeModel = TimeModel(hourOfDay,minute)
+            viewModel.changeTimeModel(timeModel)
         }
         val nowTime = LocalTime.now()
         val timePickerDialog =
