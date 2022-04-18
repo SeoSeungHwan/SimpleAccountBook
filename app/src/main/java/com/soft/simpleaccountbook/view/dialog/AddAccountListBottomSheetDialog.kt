@@ -19,6 +19,7 @@ import com.soft.simpleaccountbook.model.AccountBookItem
 import com.soft.simpleaccountbook.model.DateModel
 import com.soft.simpleaccountbook.model.TimeModel
 import com.soft.simpleaccountbook.util.ToastMessageUtil
+import com.soft.simpleaccountbook.util.ViewUtil
 import com.soft.simpleaccountbook.view.viewmodel.AddAccountListViewModel
 import java.time.LocalDate
 import java.time.LocalTime
@@ -81,6 +82,7 @@ class AddAccountListBottomSheetDialog :
                 ToastMessageUtil().showShortToast(requireContext(),"실패하였습니다.")
                 dismiss()
             }
+            ViewUtil().hideLoadingProgressBar(viewDataBinding.progressBar,activity?.window)
         }
         viewModel.dateModelLiveData.observe(viewLifecycleOwner){
             viewDataBinding.addAccountListDateEdittext.text =
@@ -111,6 +113,7 @@ class AddAccountListBottomSheetDialog :
             viewModel.changeAccountListType(2)
         }
         viewDataBinding.addAccountListSubmitButton.setOnClickListener {
+            ViewUtil().showLoadingProgressBar(viewDataBinding.progressBar,activity?.window)
             viewModel.addAccountBookItem(AccountBookItem(
                 viewModel.accountListTypeLiveData.value!!,viewModel.getDateTimeModelToTimeStamp(),viewDataBinding.addAccountListAmountEdittext.text.toString(),viewDataBinding.addAccountListContentEdittext.text.toString()
             ))
