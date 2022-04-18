@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.soft.simpleaccountbook.view.viewmodel.AddAccountListViewModel" />
+            type="com.soft.simpleaccountbook.view.viewmodel.AddAccountListDialogViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

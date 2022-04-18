@@ -5,22 +5,20 @@ import android.app.DatePickerDialog.OnDateSetListener
 import android.app.TimePickerDialog
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModelProvider
-import com.google.firebase.Timestamp
 import com.kakaobrain.pathfinder_prodo.viewmodel.viewmodelfactory.MyRepositoryViewModelFactory
-import com.router.nftforum.model.repository.MyRepository
 import com.router.nftforum.view.base.BaseBottomSheetDialogFragment
 import com.soft.simpleaccountbook.R
 import com.soft.simpleaccountbook.databinding.DialogBottomSheetAddAccountListBinding
-import com.soft.simpleaccountbook.model.AccountBookItem
-import com.soft.simpleaccountbook.model.DateModel
-import com.soft.simpleaccountbook.model.TimeModel
+import com.soft.simpleaccountbook.model.data.AccountBookItem
+import com.soft.simpleaccountbook.model.data.DateModel
+import com.soft.simpleaccountbook.model.data.TimeModel
+import com.soft.simpleaccountbook.model.repository.MyRepository
 import com.soft.simpleaccountbook.util.ToastMessageUtil
 import com.soft.simpleaccountbook.util.ViewUtil
-import com.soft.simpleaccountbook.view.viewmodel.AddAccountListViewModel
+import com.soft.simpleaccountbook.view.viewmodel.AddAccountListDialogViewModel
 import java.time.LocalDate
 import java.time.LocalTime
 
@@ -30,16 +28,16 @@ class AddAccountListBottomSheetDialog :
     override val layoutId: Int
         get() = R.layout.dialog_bottom_sheet_add_account_list
 
-    private val viewModel: AddAccountListViewModel by lazy {
+    private val dialogViewModel: AddAccountListDialogViewModel by lazy {
         ViewModelProvider(this, MyRepositoryViewModelFactory(MyRepository())).get(
-            AddAccountListViewModel::class.java
+            AddAccountListDialogViewModel::class.java
         )
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewDataBinding.viewModel = viewModel
+        viewDataBinding.viewModel = dialogViewModel
 
         viewDataBinding.toolbar.setNavigationIcon(R.drawable.ic_baseline_close_24)
         viewDataBinding.toolbar.setNavigationOnClickListener { view ->
@@ -57,15 +55,15 @@ class AddAccountListBottomSheetDialog :
     private fun initCurrentDateAndTime() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val nowDate = LocalDate.now()
-            viewModel.changeDateModel(DateModel(nowDate.year,nowDate.monthValue-1,nowDate.dayOfMonth))
+            dialogViewModel.changeDateModel(DateModel(nowDate.year,nowDate.monthValue-1,nowDate.dayOfMonth))
 
             val nowTime = LocalTime.now()
-            viewModel.changeTimeModel(TimeModel(nowTime.hour,nowTime.minute))
+            dialogViewModel.changeTimeModel(TimeModel(nowTime.hour,nowTime.minute))
         }
     }
 
     private fun setUpObserver() {
-        viewModel.accountListTypeLiveData.observe(viewLifecycleOwner) { type ->
+        dialogViewModel.accountListTypeLiveData.observe(viewLifecycleOwner) { type ->
             viewDataBinding.toolbar.title =
                 when (type) {
                     0 -> "수입"
@@ -74,7 +72,7 @@ class AddAccountListBottomSheetDialog :
                     else -> ""
                 }
         }
-        viewModel.addAccountBookItemLiveData.observe(viewLifecycleOwner){
+        dialogViewModel.addAccountBookItemLiveData.observe(viewLifecycleOwner){
             if(it){
                 ToastMessageUtil().showShortToast(requireContext(),"성공적으로 등록되었습니다.")
                 dismiss()
@@ -84,11 +82,11 @@ class AddAccountListBottomSheetDialog :
             }
             ViewUtil().hideLoadingProgressBar(viewDataBinding.progressBar,activity?.window)
         }
-        viewModel.dateModelLiveData.observe(viewLifecycleOwner){
+        dialogViewModel.dateModelLiveData.observe(viewLifecycleOwner){
             viewDataBinding.addAccountListDateEdittext.text =
                 "${it.year}/${it.monthOfYear + 1}/${it.dayOfMonth}"
         }
-        viewModel.timeModelLiveData.observe(viewLifecycleOwner){
+        dialogViewModel.timeModelLiveData.observe(viewLifecycleOwner){
             viewDataBinding.addAccountListTimeEdittext.text =
                 "${it.hourOfDay}시 ${it.minute}분"
         }
@@ -104,19 +102,21 @@ class AddAccountListBottomSheetDialog :
             }
         }
         viewDataBinding.addCountListDepositButton.setOnClickListener {
-            viewModel.changeAccountListType(0)
+            dialogViewModel.changeAccountListType(0)
         }
         viewDataBinding.addCountListWithdrawButton.setOnClickListener {
-            viewModel.changeAccountListType(1)
+            dialogViewModel.changeAccountListType(1)
         }
         viewDataBinding.addCountListTransferButton.setOnClickListener {
-            viewModel.changeAccountListType(2)
+            dialogViewModel.changeAccountListType(2)
         }
         viewDataBinding.addAccountListSubmitButton.setOnClickListener {
             ViewUtil().showLoadingProgressBar(viewDataBinding.progressBar,activity?.window)
-            viewModel.addAccountBookItem(AccountBookItem(
-                viewModel.accountListTypeLiveData.value!!,viewModel.getDateTimeModelToTimeStamp(),viewDataBinding.addAccountListAmountEdittext.text.toString(),viewDataBinding.addAccountListContentEdittext.text.toString()
-            ))
+            dialogViewModel.addAccountBookItem(
+                AccountBookItem(
+                dialogViewModel.accountListTypeLiveData.value!!,dialogViewModel.getDateTimeModelToTimeStamp(),viewDataBinding.addAccountListAmountEdittext.text.toString(),viewDataBinding.addAccountListContentEdittext.text.toString()
+            )
+            )
 
         }
     }
@@ -125,7 +125,7 @@ class AddAccountListBottomSheetDialog :
     private fun showDatePickerDialog() {
         val listener = OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
             val dateModel = DateModel(year,monthOfYear,dayOfMonth)
-            viewModel.changeDateModel(dateModel)
+            dialogViewModel.changeDateModel(dateModel)
         }
         val nowDate = LocalDate.now()
         val datePickerDialog = DatePickerDialog(
@@ -142,7 +142,7 @@ class AddAccountListBottomSheetDialog :
     private fun showTimePickerDialog() {
         val listener = TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute ->
             val timeModel = TimeModel(hourOfDay,minute)
-            viewModel.changeTimeModel(timeModel)
+            dialogViewModel.changeTimeModel(timeModel)
         }
         val nowTime = LocalTime.now()
         val timePickerDialog =

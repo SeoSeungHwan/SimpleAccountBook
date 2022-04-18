@@ -2,21 +2,20 @@ package com.soft.simpleaccountbook.view.viewmodel
 
 import android.os.Build
 import android.util.Log
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.Timestamp
 import com.kakaobrain.pathfinder_prodo.viewmodel.base.BaseMyRepositoryViewModel
-import com.router.nftforum.model.repository.MyRepository
 import com.soft.simpleaccountbook.common.GlobalApplication
-import com.soft.simpleaccountbook.model.AccountBookItem
-import com.soft.simpleaccountbook.model.DateModel
-import com.soft.simpleaccountbook.model.TimeModel
+import com.soft.simpleaccountbook.model.data.AccountBookItem
+import com.soft.simpleaccountbook.model.data.DateModel
+import com.soft.simpleaccountbook.model.data.TimeModel
+import com.soft.simpleaccountbook.model.repository.MyRepository
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.util.*
 
-class AddAccountListViewModel(override val myRepository: MyRepository): BaseMyRepositoryViewModel(){
+class AddAccountListDialogViewModel(override val myRepository: MyRepository): BaseMyRepositoryViewModel(){
 
 
     private val _addAccountBookItemLiveData = MutableLiveData<Boolean>()

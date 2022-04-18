@@ -1,4 +1,4 @@
-package com.soft.simpleaccountbook.model
+package com.soft.simpleaccountbook.model.data
 
 data class DateModel(
     val year: Int=2022,
@@ -10,3 +10,4 @@ data class TimeModel(
     val hourOfDay : Int=12,
     val minute : Int=12
 )
+
