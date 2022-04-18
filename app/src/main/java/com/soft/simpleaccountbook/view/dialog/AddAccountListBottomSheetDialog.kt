@@ -1,4 +1,4 @@
-package com.kakaobrain.pathfinder_prodo.view.dialog
+package com.soft.simpleaccountbook.view.dialog
 
 import android.app.DatePickerDialog
 import android.app.DatePickerDialog.OnDateSetListener
@@ -8,7 +8,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModelProvider
-import com.kakaobrain.pathfinder_prodo.viewmodel.viewmodelfactory.MyRepositoryViewModelFactory
 import com.router.nftforum.view.base.BaseBottomSheetDialogFragment
 import com.soft.simpleaccountbook.R
 import com.soft.simpleaccountbook.databinding.DialogBottomSheetAddAccountListBinding
@@ -19,8 +18,10 @@ import com.soft.simpleaccountbook.model.repository.MyRepository
 import com.soft.simpleaccountbook.util.ToastMessageUtil
 import com.soft.simpleaccountbook.util.ViewUtil
 import com.soft.simpleaccountbook.view.viewmodel.AddAccountListDialogViewModel
+import com.soft.simpleaccountbook.view.viewmodel.viewmodelfactory.MyRepositoryViewModelFactory
 import java.time.LocalDate
 import java.time.LocalTime
+import java.util.*
 
 class AddAccountListBottomSheetDialog :
     BaseBottomSheetDialogFragment<DialogBottomSheetAddAccountListBinding>() {
@@ -33,6 +34,8 @@ class AddAccountListBottomSheetDialog :
             AddAccountListDialogViewModel::class.java
         )
     }
+
+    private lateinit var accountListRefreshListener: AccountListRefreshListener
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -59,6 +62,11 @@ class AddAccountListBottomSheetDialog :
 
             val nowTime = LocalTime.now()
             dialogViewModel.changeTimeModel(TimeModel(nowTime.hour,nowTime.minute))
+        }else{
+            //TODO : 하위버전 현재날짜 정상적으로나오는지 확인
+            val date = Calendar.getInstance()
+            dialogViewModel.changeDateModel(DateModel(date.get(Calendar.YEAR),date.get(Calendar.MONTH+1),date.get(Calendar.DATE)))
+            dialogViewModel.changeTimeModel(TimeModel(date.get(Calendar.HOUR),date.get(Calendar.MINUTE)))
         }
     }
 
@@ -93,6 +101,7 @@ class AddAccountListBottomSheetDialog :
     }
 
     private fun setUpBtnListener() {
+        //TODO : 하위버전 날짜 및 시간선택 구현하기
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             viewDataBinding.addAccountListDateEdittext.setOnClickListener {
                 showDatePickerDialog()
@@ -121,6 +130,7 @@ class AddAccountListBottomSheetDialog :
         }
     }
 
+    //TODO : 하위버전 날짜선택 구현
     @RequiresApi(Build.VERSION_CODES.O)
     private fun showDatePickerDialog() {
         val listener = OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
@@ -138,6 +148,7 @@ class AddAccountListBottomSheetDialog :
         datePickerDialog.show()
     }
 
+    //TODO : 하위버전 시간선택 구현
     @RequiresApi(Build.VERSION_CODES.O)
     private fun showTimePickerDialog() {
         val listener = TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute ->
@@ -148,6 +159,19 @@ class AddAccountListBottomSheetDialog :
         val timePickerDialog =
             TimePickerDialog(requireContext(), listener, nowTime.hour, nowTime.minute, true)
         timePickerDialog.show()
+    }
+
+    interface AccountListRefreshListener {
+        fun finishDialog()
+    }
+
+    fun setAccountListRefreshListener(accountListRefreshListener: AccountListRefreshListener) {
+        this.accountListRefreshListener = accountListRefreshListener
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        accountListRefreshListener.finishDialog()
     }
 
 }

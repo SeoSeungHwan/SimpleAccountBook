@@ -1,6 +1,7 @@
 package com.router.nftforum.view.base
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,11 +16,6 @@ abstract class BaseFragmentForViewBinding<T: ViewDataBinding>: Fragment() {
     abstract val layoutId: Int
 
     abstract fun init()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

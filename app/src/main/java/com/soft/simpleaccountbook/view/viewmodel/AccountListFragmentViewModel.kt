@@ -3,25 +3,26 @@ package com.soft.simpleaccountbook.view.viewmodel
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.kakaobrain.pathfinder_prodo.viewmodel.base.BaseMyRepositoryViewModel
+import com.soft.simpleaccountbook.binding.AccountBookListHolderModel
 import com.soft.simpleaccountbook.common.GlobalApplication
-import com.soft.simpleaccountbook.model.data.AccountBookItem
 import com.soft.simpleaccountbook.model.repository.MyRepository
+import com.soft.simpleaccountbook.view.viewmodel.base.BaseMyRepositoryViewModel
 
 class AccountListFragmentViewModel(override val myRepository: MyRepository): BaseMyRepositoryViewModel(){
 
-    private val _accountListLiveData = MutableLiveData<List<AccountBookItem>>()
-    val accountListLiveData : LiveData<List<AccountBookItem>>
+    private val _accountListLiveData = MutableLiveData<List<AccountBookListHolderModel>>()
+    val accountListLiveData : LiveData<List<AccountBookListHolderModel>>
         get() = _accountListLiveData
 
     fun getAccountList(){
         GlobalApplication.db.collection(GlobalApplication.mySharedPreferences.getString("uid",null)).get()
             .addOnSuccessListener {
                 Log.d("Response", "getAccountList: ${it.documents.toString()}")
-                val accountList = mutableListOf<AccountBookItem>()
+                val accountList = mutableListOf<AccountBookListHolderModel>()
                 for(document in it){
-                    accountList.add(document.toObject(AccountBookItem::class.java))
+                    accountList.add(document.toObject(AccountBookListHolderModel::class.java))
                 }
+                _accountListLiveData.postValue(accountList)
             }
             .addOnFailureListener {
                 Log.d("error", "getAccountList: ")

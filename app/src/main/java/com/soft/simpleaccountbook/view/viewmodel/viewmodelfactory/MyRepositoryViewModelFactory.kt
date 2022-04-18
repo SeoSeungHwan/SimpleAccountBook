@@ -1,4 +1,4 @@
-package com.kakaobrain.pathfinder_prodo.viewmodel.viewmodelfactory
+package com.soft.simpleaccountbook.view.viewmodel.viewmodelfactory
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

@@ -6,7 +6,8 @@
     <fragment
         android:id="@+id/accountListFragment"
         android:name="com.soft.simpleaccountbook.view.fragment.AccountListFragment"
-        android:label="AccountListFragment" />
+        android:label="AccountListFragment"
+        />
     <fragment
         android:id="@+id/accountChartFragment"
         android:name="com.soft.simpleaccountbook.view.fragment.AccountChartFragment"
