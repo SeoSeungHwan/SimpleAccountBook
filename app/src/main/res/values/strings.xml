@@ -5,6 +5,10 @@
 
     <!--FragmentAccountList-->
     <string name="fragment_account_list_toolbar_text"></string>
+    <string name="fragment_account_list_sum1">수입</string>
+    <string name="fragment_account_list_sum2">지출</string>
+    <string name="fragment_account_list_sum3">합계</string>
+
 
     <!--AddAccountListBottomSheetDialog-->
     <string name="add_account_list_deposit">수입</string>
