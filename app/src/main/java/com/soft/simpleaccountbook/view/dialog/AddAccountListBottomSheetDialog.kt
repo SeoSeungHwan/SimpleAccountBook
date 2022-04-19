@@ -162,7 +162,7 @@ class AddAccountListBottomSheetDialog :
     }
 
     interface AccountListRefreshListener {
-        fun finishDialog()
+        fun finishDialog(year: Int,month : Int)
     }
 
     fun setAccountListRefreshListener(accountListRefreshListener: AccountListRefreshListener) {
@@ -171,7 +171,7 @@ class AddAccountListBottomSheetDialog :
 
     override fun onDestroy() {
         super.onDestroy()
-        accountListRefreshListener.finishDialog()
+        accountListRefreshListener.finishDialog(dialogViewModel.dateModelLiveData.value!!.year, dialogViewModel.dateModelLiveData.value!!.monthOfYear+1)
     }
 
 }

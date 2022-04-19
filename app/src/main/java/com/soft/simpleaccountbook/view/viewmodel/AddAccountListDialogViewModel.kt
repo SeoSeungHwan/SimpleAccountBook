@@ -1,6 +1,5 @@
 package com.soft.simpleaccountbook.view.viewmodel
 
-import android.os.Build
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -10,10 +9,8 @@ import com.soft.simpleaccountbook.model.data.AccountBookItem
 import com.soft.simpleaccountbook.model.data.DateModel
 import com.soft.simpleaccountbook.model.data.TimeModel
 import com.soft.simpleaccountbook.model.repository.MyRepository
+import com.soft.simpleaccountbook.util.TimeUtil
 import com.soft.simpleaccountbook.view.viewmodel.base.BaseMyRepositoryViewModel
-import java.time.LocalDateTime
-import java.time.ZoneId
-import java.util.*
 
 class AddAccountListDialogViewModel(override val myRepository: MyRepository): BaseMyRepositoryViewModel(){
 
@@ -68,23 +65,10 @@ class AddAccountListDialogViewModel(override val myRepository: MyRepository): Ba
     }
 
     fun getDateTimeModelToTimeStamp() : Timestamp {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val localDateTime = LocalDateTime.of(
-                dateModelLiveData.value!!.year,
-                dateModelLiveData.value!!.monthOfYear + 1,
-                dateModelLiveData.value!!.dayOfMonth,
-                timeModelLiveData.value!!.hourOfDay,
-                timeModelLiveData.value!!.minute
-            )
-            val zonedDateTime = localDateTime.atZone(ZoneId.of("Asia/Seoul"))
-            val localDateTimeseconds = zonedDateTime.toEpochSecond()
-            return Timestamp(localDateTimeseconds, 0)
-        }else{
-            return Timestamp(Date(dateModelLiveData.value!!.year,
-                dateModelLiveData.value!!.monthOfYear + 1,
-                dateModelLiveData.value!!.dayOfMonth,
-                timeModelLiveData.value!!.hourOfDay,
-                timeModelLiveData.value!!.minute))
-        }
+        return TimeUtil().dateToTimeStamp(dateModelLiveData.value!!.year,
+            dateModelLiveData.value!!.monthOfYear,
+            dateModelLiveData.value!!.dayOfMonth,
+            timeModelLiveData.value!!.hourOfDay,
+            timeModelLiveData.value!!.minute)
     }
 }
