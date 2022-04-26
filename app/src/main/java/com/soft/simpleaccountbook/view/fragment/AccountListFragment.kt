@@ -2,6 +2,7 @@ package com.soft.simpleaccountbook.view.fragment
 
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.router.nftforum.view.base.BaseFragmentForViewBinding
@@ -39,17 +40,6 @@ class AccountListFragment : BaseFragmentForViewBinding<FragmentAccountListBindin
     }
 
     private fun setUpBtnListener() {
-        viewDataBinding.accountListAddButton.setOnClickListener {
-            val dialog = AddAccountListBottomSheetDialog()
-            dialog.setAccountListRefreshListener(object :
-                AddAccountListBottomSheetDialog.AccountListRefreshListener {
-                override fun finishDialog(year: Int, month: Int) {
-                    viewModel.changeFocusDate(year, month)
-                    ViewUtil().showLoadingProgressBar(viewDataBinding.progressBar, activity?.window)
-                }
-            })
-            dialog.show(childFragmentManager, "AccountListFragment")
-        }
         viewDataBinding.accountListBeforeButton.setOnClickListener {
             viewModel.beforeFocusDate()
             ViewUtil().showLoadingProgressBar(viewDataBinding.progressBar, activity?.window)
@@ -77,6 +67,31 @@ class AccountListFragment : BaseFragmentForViewBinding<FragmentAccountListBindin
         viewDataBinding.recyclerView.apply {
             adapter = AccountBookListRecyclerViewAdapter(accountBookList)
             layoutManager = LinearLayoutManager(context)
+        }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewDataBinding.accountListToolbar.inflateMenu(R.menu.account_list_menu)
+        viewDataBinding.accountListToolbar.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.account_list_add_menu -> {
+                    val dialog = AddAccountListBottomSheetDialog()
+                    dialog.setAccountListRefreshListener(object :
+                        AddAccountListBottomSheetDialog.AccountListRefreshListener {
+                        override fun finishDialog(year: Int, month: Int) {
+                            viewModel.changeFocusDate(year, month)
+                            ViewUtil().showLoadingProgressBar(
+                                viewDataBinding.progressBar,
+                                activity?.window
+                            )
+                        }
+                    })
+                    dialog.show(childFragmentManager, "AccountListFragment")
+                }
+                else -> true
+            }
+            true
         }
     }
 }
