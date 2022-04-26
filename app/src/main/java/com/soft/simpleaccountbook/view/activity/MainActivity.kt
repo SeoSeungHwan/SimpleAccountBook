@@ -1,13 +1,15 @@
 package com.soft.simpleaccountbook.view.activity
 
 
-import android.util.Log
-import androidx.navigation.findNavController
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.soft.simpleaccountbook.R
 import com.soft.simpleaccountbook.databinding.ActivityMainBinding
+import com.soft.simpleaccountbook.model.repository.MyRepository
 import com.soft.simpleaccountbook.view.base.BaseActivityForViewBinding
+import com.soft.simpleaccountbook.view.viewmodel.AccountListFragmentViewModel
+import com.soft.simpleaccountbook.view.viewmodel.viewmodelfactory.MyRepositoryViewModelFactory
 
 class MainActivity : BaseActivityForViewBinding<ActivityMainBinding>() {
 

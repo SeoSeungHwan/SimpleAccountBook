@@ -56,18 +56,17 @@ class AddAccountListBottomSheetDialog :
     }
 
     private fun initCurrentDateAndTime() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val nowDate = LocalDate.now()
-            dialogViewModel.changeDateModel(DateModel(nowDate.year,nowDate.monthValue-1,nowDate.dayOfMonth))
+            dialogViewModel.changeDateModel(
+                DateModel(
+                    nowDate.year,
+                    nowDate.monthValue - 1,
+                    nowDate.dayOfMonth
+                )
+            )
 
             val nowTime = LocalTime.now()
-            dialogViewModel.changeTimeModel(TimeModel(nowTime.hour,nowTime.minute))
-        }else{
-            //TODO : 하위버전 현재날짜 정상적으로나오는지 확인
-            val date = Calendar.getInstance()
-            dialogViewModel.changeDateModel(DateModel(date.get(Calendar.YEAR),date.get(Calendar.MONTH+1),date.get(Calendar.DATE)))
-            dialogViewModel.changeTimeModel(TimeModel(date.get(Calendar.HOUR),date.get(Calendar.MINUTE)))
-        }
+            dialogViewModel.changeTimeModel(TimeModel(nowTime.hour, nowTime.minute))
     }
 
     private fun setUpObserver() {
@@ -80,21 +79,21 @@ class AddAccountListBottomSheetDialog :
                     else -> ""
                 }
         }
-        dialogViewModel.addAccountBookItemLiveData.observe(viewLifecycleOwner){
-            if(it){
-                ToastMessageUtil().showShortToast(requireContext(),"성공적으로 등록되었습니다.")
+        dialogViewModel.addAccountBookItemLiveData.observe(viewLifecycleOwner) {
+            if (it) {
+                ToastMessageUtil().showShortToast(requireContext(), "성공적으로 등록되었습니다.")
                 dismiss()
-            }else{
-                ToastMessageUtil().showShortToast(requireContext(),"실패하였습니다.")
+            } else {
+                ToastMessageUtil().showShortToast(requireContext(), "실패하였습니다.")
                 dismiss()
             }
-            ViewUtil().hideLoadingProgressBar(viewDataBinding.progressBar,activity?.window)
+            ViewUtil().hideLoadingProgressBar(viewDataBinding.progressBar, activity?.window)
         }
-        dialogViewModel.dateModelLiveData.observe(viewLifecycleOwner){
+        dialogViewModel.dateModelLiveData.observe(viewLifecycleOwner) {
             viewDataBinding.addAccountListDateEdittext.text =
                 "${it.year}/${it.monthOfYear + 1}/${it.dayOfMonth}"
         }
-        dialogViewModel.timeModelLiveData.observe(viewLifecycleOwner){
+        dialogViewModel.timeModelLiveData.observe(viewLifecycleOwner) {
             viewDataBinding.addAccountListTimeEdittext.text =
                 "${it.hourOfDay}시 ${it.minute}분"
         }
@@ -102,13 +101,11 @@ class AddAccountListBottomSheetDialog :
 
     private fun setUpBtnListener() {
         //TODO : 하위버전 날짜 및 시간선택 구현하기
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            viewDataBinding.addAccountListDateEdittext.setOnClickListener {
-                showDatePickerDialog()
-            }
-            viewDataBinding.addAccountListTimeEdittext.setOnClickListener {
-                showTimePickerDialog()
-            }
+        viewDataBinding.addAccountListDateEdittext.setOnClickListener {
+            showDatePickerDialog()
+        }
+        viewDataBinding.addAccountListTimeEdittext.setOnClickListener {
+            showTimePickerDialog()
         }
         viewDataBinding.addCountListDepositButton.setOnClickListener {
             dialogViewModel.changeAccountListType(0)
@@ -120,21 +117,22 @@ class AddAccountListBottomSheetDialog :
             dialogViewModel.changeAccountListType(2)
         }
         viewDataBinding.addAccountListSubmitButton.setOnClickListener {
-            ViewUtil().showLoadingProgressBar(viewDataBinding.progressBar,activity?.window)
+            ViewUtil().showLoadingProgressBar(viewDataBinding.progressBar, activity?.window)
             dialogViewModel.addAccountBookItem(
                 AccountBookItem(
-                dialogViewModel.accountListTypeLiveData.value!!,dialogViewModel.getDateTimeModelToTimeStamp(),viewDataBinding.addAccountListAmountEdittext.text.toString(),viewDataBinding.addAccountListContentEdittext.text.toString()
-            )
+                    dialogViewModel.accountListTypeLiveData.value!!,
+                    dialogViewModel.getDateTimeModelToTimeStamp(),
+                    viewDataBinding.addAccountListAmountEdittext.text.toString(),
+                    viewDataBinding.addAccountListContentEdittext.text.toString()
+                )
             )
 
         }
     }
 
-    //TODO : 하위버전 날짜선택 구현
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun showDatePickerDialog() {
         val listener = OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
-            val dateModel = DateModel(year,monthOfYear,dayOfMonth)
+            val dateModel = DateModel(year, monthOfYear, dayOfMonth)
             dialogViewModel.changeDateModel(dateModel)
         }
         val nowDate = LocalDate.now()
@@ -142,17 +140,15 @@ class AddAccountListBottomSheetDialog :
             requireContext(),
             listener,
             nowDate.year,
-            nowDate.monthValue - 1,
+            nowDate.monthValue-1,
             nowDate.dayOfMonth
         )
         datePickerDialog.show()
     }
 
-    //TODO : 하위버전 시간선택 구현
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun showTimePickerDialog() {
         val listener = TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute ->
-            val timeModel = TimeModel(hourOfDay,minute)
+            val timeModel = TimeModel(hourOfDay, minute)
             dialogViewModel.changeTimeModel(timeModel)
         }
         val nowTime = LocalTime.now()
@@ -162,7 +158,7 @@ class AddAccountListBottomSheetDialog :
     }
 
     interface AccountListRefreshListener {
-        fun finishDialog(year: Int,month : Int)
+        fun finishDialog(year: Int, month: Int)
     }
 
     fun setAccountListRefreshListener(accountListRefreshListener: AccountListRefreshListener) {
@@ -171,7 +167,10 @@ class AddAccountListBottomSheetDialog :
 
     override fun onDestroy() {
         super.onDestroy()
-        accountListRefreshListener.finishDialog(dialogViewModel.dateModelLiveData.value!!.year, dialogViewModel.dateModelLiveData.value!!.monthOfYear+1)
+        accountListRefreshListener.finishDialog(
+            dialogViewModel.dateModelLiveData.value!!.year,
+            dialogViewModel.dateModelLiveData.value!!.monthOfYear + 1
+        )
     }
 
 }

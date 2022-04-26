@@ -66,7 +66,7 @@ class AddAccountListDialogViewModel(override val myRepository: MyRepository): Ba
 
     fun getDateTimeModelToTimeStamp() : Timestamp {
         return TimeUtil().dateToTimeStamp(dateModelLiveData.value!!.year,
-            dateModelLiveData.value!!.monthOfYear,
+            dateModelLiveData.value!!.monthOfYear+1,
             dateModelLiveData.value!!.dayOfMonth,
             timeModelLiveData.value!!.hourOfDay,
             timeModelLiveData.value!!.minute)

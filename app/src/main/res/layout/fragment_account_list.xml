@@ -17,15 +17,52 @@
         android:layout_height="match_parent"
         android:background="@color/background">
 
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/account_list_toolbar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="?attr/actionBarTheme"
+            app:contentInsetStart="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" >
+
+            <ImageButton
+                android:id="@+id/account_list_before_button"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_baseline_chevron_left_24"
+                android:backgroundTint="@color/main"/>
+
+            <TextView
+                android:id="@+id/account_list_month_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                tools:text="2022년 1월"
+                android:fontFamily="@font/nanum_square_rount_b_font"/>
+
+            <ImageButton
+                android:id="@+id/account_list_after_button"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_baseline_chevron_right_24"
+                android:backgroundTint="@color/main"/>
+        </androidx.appcompat.widget.Toolbar>
+
         <LinearLayout
             android:id="@+id/linearLayout2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
             android:layout_weight="1"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toBottomOf="@+id/account_list_toolbar">
 
             <LinearLayout
                 android:layout_width="wrap_content"
