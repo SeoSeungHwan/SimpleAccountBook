@@ -53,15 +53,6 @@
                 android:fontFamily="@font/nanum_square_rount_b_font"
                 android:text="@string/add_account_list_withdraw" />
 
-            <Button
-                android:id="@+id/add_count_list_transfer_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:layout_weight="1"
-                android:background="@{viewModel.accountListTypeLiveData ==2 ? @drawable/custom_account_book_type_select_on : @drawable/custom_account_book_type_select_off}"
-                android:fontFamily="@font/nanum_square_rount_b_font"
-                android:text="@string/add_account_list_transfer" />
         </LinearLayout>
 
 

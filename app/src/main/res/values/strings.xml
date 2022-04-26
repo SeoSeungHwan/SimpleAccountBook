@@ -13,7 +13,6 @@
     <!--AddAccountListBottomSheetDialog-->
     <string name="add_account_list_deposit">수입</string>
     <string name="add_account_list_withdraw">지출</string>
-    <string name="add_account_list_transfer">이체</string>
 
     <string name="add_account_list_date">날짜</string>
     <string name="add_account_list_amount">금액</string>

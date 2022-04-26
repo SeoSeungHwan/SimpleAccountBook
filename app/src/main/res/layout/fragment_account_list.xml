@@ -85,6 +85,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:text="@{viewModel.accountListSum1LiveData}"
                     android:fontFamily="@font/nanum_square_rount_b_font"
                     android:gravity="center"
                     android:textColor="@color/main"
@@ -115,6 +116,7 @@
                     android:layout_weight="1"
                     android:fontFamily="@font/nanum_square_rount_b_font"
                     android:gravity="center"
+                    android:text="@{viewModel.accountListSum2LiveData}"
                     android:textColor="@color/orange"
                     tools:text="0" />
             </LinearLayout>
@@ -142,6 +144,7 @@
                     android:layout_weight="1"
                     android:fontFamily="@font/nanum_square_rount_b_font"
                     android:gravity="center"
+                    android:text="@{viewModel.accountListTotalLiveData}"
                     android:textColor="@color/black"
                     tools:text="0" />
             </LinearLayout>

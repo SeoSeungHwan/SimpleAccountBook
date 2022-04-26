@@ -113,9 +113,6 @@ class AddAccountListBottomSheetDialog :
         viewDataBinding.addCountListWithdrawButton.setOnClickListener {
             dialogViewModel.changeAccountListType(1)
         }
-        viewDataBinding.addCountListTransferButton.setOnClickListener {
-            dialogViewModel.changeAccountListType(2)
-        }
         viewDataBinding.addAccountListSubmitButton.setOnClickListener {
             ViewUtil().showLoadingProgressBar(viewDataBinding.progressBar, activity?.window)
             dialogViewModel.addAccountBookItem(

@@ -63,12 +63,12 @@ class AccountListFragment : BaseFragmentForViewBinding<FragmentAccountListBindin
     private fun setUpObserver() {
         viewModel.accountListFocusLocalDateLiveData.observe(viewLifecycleOwner) {
             viewDataBinding.accountListMonthTextview.text = "${it.year}년 ${it.monthValue}월"
-            Log.d("haha", "포커스 데이터: ${it.year}년 ${it.monthValue}월")
             viewModel.getAccountList(viewModel.accountListFocusLocalDateLiveData.value!!)
 
         }
         viewModel.accountListLiveData.observe(viewLifecycleOwner) {
             setUpRecyclerView(it)
+            viewModel.getAccountSum()
             ViewUtil().hideLoadingProgressBar(viewDataBinding.progressBar, activity?.window)
         }
     }

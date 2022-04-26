@@ -31,7 +31,6 @@ class AddAccountListDialogViewModel(override val myRepository: MyRepository): Ba
      * Type
      * 0 : 수입
      * 1 : 지출
-     * 2 : 이체
      * */
     private val _accountListTypeLiveData = MutableLiveData<Int>(1)
     val accountListTypeLiveData : LiveData<Int>

@@ -1,6 +1,5 @@
 package com.soft.simpleaccountbook.view.viewmodel
 
-import android.content.ContentValues.TAG
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -21,6 +20,18 @@ class AccountListFragmentViewModel(override val myRepository: MyRepository) :
     private val _accountListLiveData = MutableLiveData<List<AccountBookListHolderModel>>()
     val accountListLiveData: LiveData<List<AccountBookListHolderModel>>
         get() = _accountListLiveData
+
+    private val _accountListSum1LiveData = MutableLiveData<String>()
+    val accountListSum1LiveData: LiveData<String>
+        get() = _accountListSum1LiveData
+
+    private val _accountListSum2LiveData = MutableLiveData<String>()
+    val accountListSum2LiveData: LiveData<String>
+        get() = _accountListSum2LiveData
+
+    private val _accountListTotalLiveData = MutableLiveData<String>()
+    val accountListTotalLiveData: LiveData<String>
+        get() = _accountListTotalLiveData
 
 
     fun initFocusDate() {
@@ -51,10 +62,10 @@ class AccountListFragmentViewModel(override val myRepository: MyRepository) :
     }
 
     fun getAccountList(localDate: LocalDate) {
-        Log.d(TAG, "haha: ${localDate.monthValue}")
         val startTimestamp =
             TimeUtil().dateToTimeStamp(localDate.year, localDate.monthValue, 1, 0, 0)
-        val endTimestamp = TimeUtil().dateToTimeStamp(localDate.year, localDate.plusMonths(1).monthValue, 1, 0, 0)
+        val endTimestamp =
+            TimeUtil().dateToTimeStamp(localDate.year, localDate.plusMonths(1).monthValue, 1, 0, 0)
         GlobalApplication.db
             .collection(
                 GlobalApplication
@@ -64,7 +75,7 @@ class AccountListFragmentViewModel(override val myRepository: MyRepository) :
             .whereLessThan("time", endTimestamp)
             .get()
             .addOnSuccessListener {
-                Log.d("Response", "getAccountList: ${it.documents.toString()}")
+                Log.d("Response", "getAccountList: ${it.documents}")
                 val accountList = mutableListOf<AccountBookListHolderModel>()
                 for (document in it) {
                     accountList.add(document.toObject(AccountBookListHolderModel::class.java))
@@ -74,5 +85,33 @@ class AccountListFragmentViewModel(override val myRepository: MyRepository) :
             .addOnFailureListener {
                 Log.d("error", "getAccountList: ")
             }
+    }
+
+    fun getAccountSum() {
+        var sum1 = 0;
+        var sum2 = 0;
+        var total = 0;
+
+        accountListLiveData.value?.forEach {
+            //수입
+            if (it.type == 0) {
+                if (!it.balance.equals("")) {
+                    sum1 += it.balance.toInt()
+                    total += it.balance.toInt()
+                }
+            }
+            //지출
+            else if (it.type == 1) {
+                if (!it.balance.equals("")) {
+                    sum2 += it.balance.toInt()
+                    total -= it.balance.toInt();
+
+                }
+            }
+            _accountListSum1LiveData.postValue(sum1.toString())
+            _accountListSum2LiveData.postValue(sum2.toString())
+            _accountListTotalLiveData.postValue(total.toString())
+
+        }
     }
 }
