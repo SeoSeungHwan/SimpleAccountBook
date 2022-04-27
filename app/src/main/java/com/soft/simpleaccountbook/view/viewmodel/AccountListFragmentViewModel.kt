@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import com.soft.simpleaccountbook.binding.AccountBookListHolderModel
 import com.soft.simpleaccountbook.common.GlobalApplication
 import com.soft.simpleaccountbook.model.repository.MyRepository
+import com.soft.simpleaccountbook.util.StringFormatUtil
 import com.soft.simpleaccountbook.util.TimeUtil
 import com.soft.simpleaccountbook.view.viewmodel.base.BaseMyRepositoryViewModel
 import java.time.LocalDate
@@ -108,9 +109,9 @@ class AccountListFragmentViewModel(override val myRepository: MyRepository) :
 
                 }
             }
-            _accountListSum1LiveData.postValue(sum1.toString())
-            _accountListSum2LiveData.postValue(sum2.toString())
-            _accountListTotalLiveData.postValue(total.toString())
+            _accountListSum1LiveData.postValue(StringFormatUtil().amountToFormat(sum1))
+            _accountListSum2LiveData.postValue(StringFormatUtil().amountToFormat(sum2))
+            _accountListTotalLiveData.postValue(StringFormatUtil().amountToFormat(total))
 
         }
     }

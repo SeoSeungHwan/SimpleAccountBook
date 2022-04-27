@@ -68,7 +68,7 @@
             android:layout_height="0dp"
             android:background="@color/white"
             android:gravity="center"
-            android:text="@{holderModel.type==0? holderModel.balance : `-`+holderModel.balance}"
+            android:text="@{holderModel.type==0? holderModel.amountToFormat() : `-`+holderModel.amountToFormat()}"
             android:textColor="@{holderModel.type==0? @color/main : @color/orange}"
             android:textSize="18sp"
             android:textStyle="bold"

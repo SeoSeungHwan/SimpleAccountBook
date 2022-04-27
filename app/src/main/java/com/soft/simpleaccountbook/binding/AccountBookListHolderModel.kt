@@ -1,6 +1,7 @@
 package com.soft.simpleaccountbook.binding
 
 import com.google.firebase.Timestamp
+import com.soft.simpleaccountbook.util.StringFormatUtil
 import com.soft.simpleaccountbook.util.TimeUtil
 
 class AccountBookListHolderModel(
@@ -11,6 +12,10 @@ class AccountBookListHolderModel(
 ) {
     fun timeStampToString(): String {
         return TimeUtil().timeStampToString(time)
+    }
+
+    fun amountToFormat() : String{
+        return StringFormatUtil().amountToFormat(balance.toInt())
     }
 
     fun typeToString() =
