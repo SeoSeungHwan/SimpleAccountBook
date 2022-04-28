@@ -114,16 +114,19 @@ class AddAccountListBottomSheetDialog :
             dialogViewModel.changeAccountListType(1)
         }
         viewDataBinding.addAccountListSubmitButton.setOnClickListener {
-            ViewUtil().showLoadingProgressBar(viewDataBinding.progressBar, activity?.window)
-            dialogViewModel.addAccountBookItem(
-                AccountBookItem(
-                    dialogViewModel.accountListTypeLiveData.value!!,
-                    dialogViewModel.getDateTimeModelToTimeStamp(),
-                    viewDataBinding.addAccountListAmountEdittext.text.toString(),
-                    viewDataBinding.addAccountListContentEdittext.text.toString()
+            if(!viewDataBinding.addAccountListAmountEdittext.text.toString().isNullOrBlank()){
+                ViewUtil().showLoadingProgressBar(viewDataBinding.progressBar, activity?.window)
+                dialogViewModel.addAccountBookItem(
+                    AccountBookItem(
+                        dialogViewModel.accountListTypeLiveData.value!!,
+                        dialogViewModel.getDateTimeModelToTimeStamp(),
+                        viewDataBinding.addAccountListAmountEdittext.text.toString(),
+                        viewDataBinding.addAccountListContentEdittext.text.toString()
+                    )
                 )
-            )
-
+            }else{
+                ToastMessageUtil().showShortToast(requireContext(),"금액을 입력해주세요")
+            }
         }
     }
 
