@@ -34,6 +34,10 @@ class AccountListFragmentViewModel(override val myRepository: MyRepository) :
     val accountListTotalLiveData: LiveData<String>
         get() = _accountListTotalLiveData
 
+    private val _removeCheckLiveData = MutableLiveData<Boolean>()
+    val removeCheckLiveData: LiveData<Boolean>
+        get() = _removeCheckLiveData
+
 
     fun initFocusDate() {
         val localDate = LocalDate.now()
@@ -79,7 +83,9 @@ class AccountListFragmentViewModel(override val myRepository: MyRepository) :
                 Log.d("Response", "getAccountList: ${it.documents}")
                 val accountList = mutableListOf<AccountBookListHolderModel>()
                 for (document in it) {
-                    accountList.add(document.toObject(AccountBookListHolderModel::class.java))
+                    val new_Document=document.toObject(AccountBookListHolderModel::class.java)
+                    new_Document.id = document.id
+                    accountList.add(new_Document)
                 }
                 _accountListLiveData.postValue(accountList)
             }
@@ -114,5 +120,17 @@ class AccountListFragmentViewModel(override val myRepository: MyRepository) :
             _accountListTotalLiveData.postValue(StringFormatUtil().amountToFormat(total))
 
         }
+    }
+
+    fun removeAccountListItem(id : String){
+        GlobalApplication.db.collection(GlobalApplication.mySharedPreferences.getString("uid",null))
+            .document(id)
+            .delete()
+            .addOnSuccessListener {
+                _removeCheckLiveData.postValue(true)
+            }
+            .addOnFailureListener {
+                _removeCheckLiveData.postValue(false)
+            }
     }
 }

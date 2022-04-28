@@ -7,7 +7,7 @@ import com.soft.simpleaccountbook.binding.AccountBookListHolderModel
 import com.soft.simpleaccountbook.databinding.HolderAccountListBinding
 import com.soft.simpleaccountbook.model.data.AccountBookItem
 
-class AccountBookListRecyclerViewAdapter(private val modelList: List<AccountBookListHolderModel>): RecyclerView.Adapter<AccountBookListRecyclerViewAdapter.ViewHolder>() {
+class AccountBookListRecyclerViewAdapter(private val modelList: List<AccountBookListHolderModel>, private val clickUnit: (id: String) ->Unit): RecyclerView.Adapter<AccountBookListRecyclerViewAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val viewDataBinding = HolderAccountListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -26,6 +26,10 @@ class AccountBookListRecyclerViewAdapter(private val modelList: List<AccountBook
     inner class ViewHolder(val viewDataBinding: HolderAccountListBinding): RecyclerView.ViewHolder(viewDataBinding.root) {
         fun bind(holderModel: AccountBookListHolderModel) {
             viewDataBinding.holderModel = holderModel
+
+            itemView.setOnClickListener {
+                clickUnit(holderModel.id)
+            }
         }
     }
 }

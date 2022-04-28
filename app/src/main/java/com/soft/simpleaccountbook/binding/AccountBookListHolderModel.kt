@@ -5,6 +5,7 @@ import com.soft.simpleaccountbook.util.StringFormatUtil
 import com.soft.simpleaccountbook.util.TimeUtil
 
 class AccountBookListHolderModel(
+    var id : String="",
     val type : Int = 1,
     val time : Timestamp = Timestamp.now(),
     val balance : String ="",
@@ -17,13 +18,4 @@ class AccountBookListHolderModel(
     fun amountToFormat() : String{
         return StringFormatUtil().amountToFormat(balance.toInt())
     }
-
-    fun typeToString() =
-        when (type) {
-            0 -> "수입"
-            1 -> "지출"
-            2 -> "이체"
-            else -> "기타"
-        }
-
 }
