@@ -99,26 +99,31 @@ class AccountListFragmentViewModel(override val myRepository: MyRepository) :
         var sum2 = 0;
         var total = 0;
 
-        accountListLiveData.value?.forEach {
-            //수입
-            if (it.type == 0) {
-                if (!it.balance.equals("")) {
-                    sum1 += it.balance.toInt()
-                    total += it.balance.toInt()
+        if(accountListLiveData.value?.size==0){
+            _accountListSum1LiveData.postValue("0")
+            _accountListSum2LiveData.postValue("0")
+            _accountListTotalLiveData.postValue("0")
+        }else{
+            accountListLiveData.value?.forEach {
+                //수입
+                if (it.type == 0) {
+                    if (!it.balance.equals("")) {
+                        sum1 += it.balance.toInt()
+                        total += it.balance.toInt()
+                    }
                 }
-            }
-            //지출
-            else if (it.type == 1) {
-                if (!it.balance.equals("")) {
-                    sum2 += it.balance.toInt()
-                    total -= it.balance.toInt();
+                //지출
+                else if (it.type == 1) {
+                    if (!it.balance.equals("")) {
+                        sum2 += it.balance.toInt()
+                        total -= it.balance.toInt();
 
+                    }
                 }
+                _accountListSum1LiveData.postValue(StringFormatUtil().amountToFormat(sum1))
+                _accountListSum2LiveData.postValue(StringFormatUtil().amountToFormat(sum2))
+                _accountListTotalLiveData.postValue(StringFormatUtil().amountToFormat(total))
             }
-            _accountListSum1LiveData.postValue(StringFormatUtil().amountToFormat(sum1))
-            _accountListSum2LiveData.postValue(StringFormatUtil().amountToFormat(sum2))
-            _accountListTotalLiveData.postValue(StringFormatUtil().amountToFormat(total))
-
         }
     }
 
